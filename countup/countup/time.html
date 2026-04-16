@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter</title>
+    <style>
+        body {
+            background-image: url('bg2.png');
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-position: center;
+			height: 100vh;
+			margin: 0;
+            color: yellowgreen;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        #counter {
+            font-size: 450px; /* Increased font size for better visibility */
+            font-weight: bold; /* Bold 500t for clarity */
+            background: yellowgreen;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            text-shadow: 3px 3px 0 rgba(173, 255, 47, 1), /* Reduced blur */
+                         6px 6px 0 rgba(173, 225,47, 0.8),
+				         9px 9px 0 rgba(173, 225,47, 0.6); /* Reduced second shadow */
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            text-align: right;
+        }
+        input {
+            width: 60px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+		button {
+            padding: 15px 20px; /* Increased button padding */
+            font-size: 24px; /* Larger button font size */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: greenyellow;
+            color: black;
+            transition: background-color 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+			background-color: orange;
+			text-align: right;
+			font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div id="counter">0</div>
+    <div id="controls">
+        <input type="number" id="userInput" min="1" placeholder="Enter number">
+        <button id="startButton">Start</button>
+        <button id="pauseButton">Pause</button>
+    </div>
+
+    <script>
+        let count = 0;
+        let targetNumber = 0;
+        let interval;
+        let paused = false;
+
+        const counterElement = document.getElementById('counter');
+        const userInput = document.getElementById('userInput');
+        const startButton = document.getElementById('startButton');
+        const pauseButton = document.getElementById('pauseButton');
+
+        startButton.onclick = function() {
+            targetNumber = parseInt(userInput.value);
+            if (isNaN(targetNumber) || targetNumber < 1) return;
+            count = 0;
+            clearInterval(interval);
+            paused = false;
+            updateCounter();
+        };
+
+        pauseButton.onclick = function() {
+            paused = !paused;
+            pauseButton.innerText = paused ? "Resume" : "Pause";
+        };
+
+        function updateCounter() {
+            interval = setInterval(function() {
+                if (paused) return;
+                if (count < targetNumber) {
+                    count++;
+                    counterElement.innerText = count;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 1000); // 1000ms for each count
+        }
+    </script>
+</body>
+</html>
